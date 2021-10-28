@@ -44,6 +44,30 @@
     background-color: orange;
 }
 
+.glow-blue {
+    z-index: 100;
+    box-shadow: 0px 0px 15px #00e1ff;
+}
+
+.glow-green {
+    z-index: 100;
+    box-shadow: 0px 0px 15px #00ff22;
+}
+
+.glow-red {
+    z-index: 100;
+    box-shadow: 0px 0px 15px #ff0000;
+}
+  
+.checker-blue{
+    background-color: #4E4187;
+    
+}
+
+.checker-violet{
+    background-color: #3083DC;
+}
+
 @media only screen and (orientation: portrait) {
     div.main_container {
         width: 100vw;
