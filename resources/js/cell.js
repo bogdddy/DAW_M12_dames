@@ -22,8 +22,4 @@ class Cell {
         this._piece = piece;
     }
 
-    set highlited(color) {
-        this._highlited = color;
-    }
-
 }

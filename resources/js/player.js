@@ -16,6 +16,6 @@ class Player {
         return this._pieces;
     }
     substractPiece() {
-        this._pieces -= this._pieces;
+        this._pieces -= 1;
     }
 }

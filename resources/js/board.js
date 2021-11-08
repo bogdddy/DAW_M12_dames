@@ -127,7 +127,7 @@ class Board {
 
         piece.empty(); // removes image
 
-        piece.html(`<img class="img-fluid" src="./resources/images/crown.png"></img>`); // sets new image
+        piece.html(`<img class="img-fluid" src="./resources/images/dame_${color}.png"></img>`); // sets new image
 
     }
 }
