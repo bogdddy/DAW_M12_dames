@@ -99,8 +99,6 @@ class Game {
                         }
                     }
 
-
-
                 });
 
             }
@@ -251,6 +249,7 @@ class Game {
             // +-2 / +-2 moves
             } else if (Math.abs(moveX) == 2) {
                 
+                //first check if there is an opponents piece in 1/1, then check if the 2/2 is empty 
                 if (this.getCell(row + moveX / 2, col + moveY / 2).piece != null && this.getPieceColor(row + moveX / 2, col + moveY / 2 ) != color) {
                     if (this.getCell(row + moveX, col + moveY).piece == null) {
                         return true;
@@ -274,7 +273,13 @@ class Game {
 
         this.getCell(row, col).piece = null; // remove piece from old position
         this.getCell(toRow, toCol).piece = piece; // place piece in new position
-
+        this._board.movePiece(row, col, toRow, toCol); // move piece graphically
+        
+        // check if piece became 
+        if(piece.dame == false && (toRow == 1 || toRow == 8)){
+            this.checkDame(toRow, toCol, piece);
+        }
+        
         // check if piece has been captured during move
         if (row - toRow == -2) {
 
@@ -298,14 +303,6 @@ class Game {
 
         }
 
-        // move piece graphically
-        this._board.movePiece(row, col, toRow, toCol);
-
-        // check if piece became 
-        if(piece.dame == false && (toRow == 1 || toRow == 8)){
-            this.checkDame(toRow, toCol, piece);
-        }
-
         // reset variables
         this._selectedPiece = { row: null, col: null, color: null };
         this._possibleMoves = [];
@@ -314,9 +311,6 @@ class Game {
 
         // if piece was captured, check if you can keep capturing (mandatory move)
         if (captured){
-            console.log(this.opponent);
-            this.opponent.substractPiece();
-            console.log(this.opponent);
             if (this.opponent.pieces == 0){
                 this.endGame(this.turn);
             }else {
@@ -330,6 +324,7 @@ class Game {
             console.log("mandatory move");
             this._mandatoryMove = true;
         
+            //change selected piece position
             this._selectedPiece.row = toRow;
             this._selectedPiece.col = toCol;
             this._selectedPiece.color = this._turn.color;
@@ -349,8 +344,6 @@ class Game {
                 console.log("turn change");
             }
 
-
-
         }
 
         console.log(this._board);
@@ -363,6 +356,7 @@ class Game {
         this.getCell(row, col).piece.setActive; // set captured piece active to false
         this.getCell(row, col).piece = null; // remove captured piece from cell
         this._board.capturePiece(row, col); // graphically remove piece
+        this.opponent.substractPiece(); // substract piece from opponent
 
     }
 
@@ -411,17 +405,19 @@ class Game {
         return false;
     }
 
-    // basically cahnges turn
+    // basically changes turn
     changeTurn() {
 
         this._turn == this._player1 ? this._turn = this._player2 : this._turn = this._player1;
 
     }
 
+    // ends game 
     surrender() {
 
         this._playing = false;
-
+        
+        // surrender alert
         Swal.fire({
             text: ``,
             imageUrl: './resources/images/ff.gif',
@@ -444,7 +440,5 @@ class Game {
         })
         
     }
-
-
 
 }
