@@ -21,13 +21,86 @@
     <title>Dames</title>
 </head>
 
-<body class="bg-primary">
-
-    <div class="main_container">
-        <div class="board" id="board">
- 
+<body>
+    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel">START GAME</h5>
+                </div>
+                <div class="modal-body">
+                    <div class="modal_row">
+                        <div class="modal_left">
+                            <label form="">Nickname: </label>
+                            <input type="text" name="nickname" placeholder="Enter your nickname"
+                                value="player1"></input>
+                        </div>
+                        <div class="modal_right">
+                            <label form="">Nickname: </label>
+                            <input type="text" name="nickname" placeholder="Enter your nickname"
+                                value="player2"></input>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div id="accordion">
+                        <div class="card">
+                            <div class="card-header" id="headingOne">
+                                <h5 class="mb-0">
+                                    <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne"
+                                        aria-expanded="true" aria-controls="collapseOne">
+                                        Game rules
+                                    </button>
+                                </h5>
+                            </div>
+                            <div id="collapseOne" class="collapse show" aria-labelledby="headingOne"
+                                data-parent="#accordion">
+                                <div class="card-body">
+                                    Here goes the game rules
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <input type="checkbox" name="rules_ok">I have read and understood the game rules
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
         </div>
-        <div class="down_subcontainer"></div>
+    </div>
+    <div class="row">
+        <div class="left">
+            <section id="player">
+                <p>PLAYER 1</p>
+            </section>
+            <img src="./resources/css/avatar.png" />
+            <section id="info">
+                <p>Color: </p>
+                <p>Pieces left: </p>
+            </section>
+        </div>
+        <div class="center">
+            <section id="board">
+
+            </section>
+        </div>
+        <div class="right">
+            <section id="player">
+                <p>PLAYER 2</p>
+            </section>
+            <img src="./resources/css/avatar.png" />
+            <section id="info">
+                <p>Color: </p>
+                <p>Pieces left:</p>
+            </section>
+        </div>
+    </div>
+    <div class="row">
+        <div class="down">
+            <section id="alerts">
+                <p id>TURN PLAYER</p>
+            </section>
+        </div>
     </div>
 
     <!-- JS -->
