@@ -1,12 +1,16 @@
 $(document).ready(() => {
 
-  // $('#hihi').on('click', () => {
-  //   $('#hehe').collapse('toggle')
-  // })
-  // $('#hehe').collapse('toggle')
+  function checkOrientation() {
+    if (screen.orientation.type == "landscape-primary") {
+      $('#myModal').modal('show');
+      screen.orientation.lock("landscape-primary").then(
+        success => {},
+        failure => {}
+      );
+    }
+  }
 
-
-  // $('#myModal').modal('show');
+  $(window).on("orientationchange", checkOrientation);
 
   startGame();
 
