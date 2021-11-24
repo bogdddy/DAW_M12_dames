@@ -3,10 +3,7 @@ $(document).ready(() => {
   function checkOrientation() {
     if (screen.orientation.type == "landscape-primary") {
       $('#myModal').modal('show');
-      screen.orientation.lock("landscape-primary").then(
-        success => {},
-        failure => {}
-      );
+      screen.orientation.lock("landscape-primary");
     }
   }
 
