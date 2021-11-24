@@ -73,7 +73,7 @@ body {
 }
 
 #p1_piece {
-    background-image: url(./resources/images/piece_white.png);
+    background-image: url("./resources/images/piece_white.png");
     background-size: 70%;
     background-repeat: no-repeat;
     background-position: center;
@@ -86,7 +86,7 @@ body {
 }
 
 #p2_piece {
-    background-image: url(./resources/images/piece_black.png);
+    background-image: url("./resources/images/piece_black.png");
     background-size: 70%;
     background-repeat: no-repeat;
     background-position: center;
