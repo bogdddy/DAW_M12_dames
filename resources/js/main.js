@@ -1,6 +1,5 @@
 $(document).ready(() => {
 
-
   checkOrientation();
   $(window).on("orientationchange", checkOrientation);
 
@@ -145,6 +144,5 @@ $(document).ready(() => {
     // $("#5-2").html(`<img class="img-fluid" src="./resources/images/piece_white.png"></img>`);
 
   }
-
 
 })
