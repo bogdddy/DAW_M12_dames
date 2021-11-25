@@ -107,7 +107,7 @@ class Board {
         $("#p2-avatar").attr("id", `${player2.color}-avatar`);
         $("#p2-color").css("backgroundImage", `url(./resources/images/piece_${player2.color}.png)`);
         $("#p2-pieces").attr("id", `${player2.color}-pieces`);
-        $(`${player2.color}-pieces`).html(12)
+        $(`#${player2.color}-pieces`).html(12)
         if (player2.color == "black"){
             $(`#${player2.color}-pieces`).addClass("text-light")
         }
