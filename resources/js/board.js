@@ -114,9 +114,11 @@ class Board {
 
         // set avatar opacity
         if( player1.color == "white"){
+            $(`#${player1.color}-avatar`).css("opacity", "1" );
             $(`#${player2.color}-avatar`).css("opacity", "0.5" );
         }else{
             $(`#${player1.color}-avatar`).css("opacity", "0.5" );
+            $(`#${player2.color}-avatar`).css("opacity", "1" );
         }
 
     }
