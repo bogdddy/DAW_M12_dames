@@ -9,12 +9,15 @@ class Player {
     get name() {
         return this._name;
     }
+
     get color() {
         return this._color;
     }
+
     get pieces() {
         return this._pieces;
     }
+    
     substractPiece() {
         this._pieces -= 1;
     }
