@@ -72,8 +72,8 @@ body {
     border-radius: 8px;
 }
 
-#p1_piece {
-    background-image: url("/resources/images/piece_white.png");
+
+#p1-color, #p2-color {
     background-size: 70%;
     background-repeat: no-repeat;
     background-position: center;
@@ -85,18 +85,12 @@ body {
     flex-basis: 100px;
 }
 
-#p2_piece {
-    background-image: url("/resources/images/piece_black.png");
-    background-size: 70%;
-    background-repeat: no-repeat;
-    background-position: center;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    flex-grow: 2;
-    flex-basis: 100px;
-    color: white;
+#p1-color {
+    background-image: url("/resources/images/piece_white.png");
+}
+
+#p2-color {
+    background-image: url(/resources/images/piece_black.png);
 }
 
 #p1-w {
@@ -124,6 +118,10 @@ body {
     transform: scale(1.5);
 }
 
+.piece_selected {
+    transform: scale(1.35);
+}
+
 #player_info {
     background-color: midnightblue;
     color: skyblue;
@@ -138,7 +136,7 @@ body {
     overflow: auto;
 }
 
-#surrender_btn {
+#p1-surrender, #p2-surrender {
     
     margin: 0em 0.5em 1em 0.5em;
     text-align: center;
@@ -159,7 +157,7 @@ body {
     transform: translateY(4px);
 }
 
-.glow-blue {
+.glow-white {
     z-index: 100;
     box-shadow: 0px 0px 20px rgb(177, 243, 255);
 }
@@ -179,7 +177,7 @@ body {
     
 }
 
-.checker-violet{
+.checker-light_blue{
     background-color: rgb(75, 119, 250);
 }
 
