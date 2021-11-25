@@ -1,8 +1,8 @@
 class Cell {
 
     constructor(x, y, piece = null) {
-        this._positionX = x; // postion X stands for ROW
-        this._positionY = y; // position Y stands for COL
+        this._positionX = x;
+        this._positionY = y;
         this._piece = piece;
     }
 
