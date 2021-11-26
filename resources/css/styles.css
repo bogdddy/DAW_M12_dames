@@ -107,10 +107,10 @@ properties */
 /* Resize modal piece images to fit
 and adds a zoom-in transition animation */
 #p1-w, #p1-b, #p2-w, #p2-b {
-    margin: 1.2em;
+    margin: 1.5em;
     align-self: center;
-    width: 30%;
-    height: 30%;
+    width: 25%;
+    height: 25%;
     transition: .2s;
 }
 
