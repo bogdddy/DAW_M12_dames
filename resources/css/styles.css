@@ -122,9 +122,9 @@ on mouse over action */
 
 /* Zooms in a little further the piece image
 that has been clicked on */
-/*.piece_selected {
-    transform: scale(1.35);
-}*/
+.piece_selected {
+    transform: scale(1.5);
+}
 
 #player_info {
     background-color: midnightblue;
