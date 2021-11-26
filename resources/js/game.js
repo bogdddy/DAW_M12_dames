@@ -5,7 +5,7 @@ class Game {
         this._player1 = player1;
         this._player2 = player2;
         this._turn = player1;
-        this._board = new Board();
+        this._board = null;
         this._selectedPiece = { row: null, col: null, color: null };
         this._possibleMoves = new Array();
         this._mandatoryMove = false;
@@ -23,6 +23,10 @@ class Game {
         return this._board;
     }
 
+    newBoard() {
+        this._board = new Board();
+    }
+
     /**
      * Starts a new game; 
      * calls all methods to initialize the game
@@ -32,6 +36,7 @@ class Game {
         this._player1.color == "white" ? this._turn = this._player1 : this._turn = this._player2;
 
         this._playing = true;
+        this.newBoard(); // create board
         this.fillBoard(); // logically add cells() and pieces()
         this.board.printBoard(); // print board
         this.addEventsToBoard(); // add listeners to boards
@@ -88,11 +93,11 @@ class Game {
      */
     addEventsToBoard() {
 
-        $("#p1-surrender").click( () =>{
+        $("#p1-surrender").click(() => {
             this.surrender(this._player1)
         });
 
-        $("#p2-surrender").click( () =>{
+        $("#p2-surrender").click(() => {
             this.surrender(this._player2)
         });
 
@@ -102,14 +107,14 @@ class Game {
                 $(`#${row}-${col}`).on("click", () => {
 
                     if (this._playing) {
-                        
+
                         // move piece
                         if (this._possibleMoves.includes(`#${row}-${col}`)) {
 
                             this.movePiece(this._selectedPiece.row, this._selectedPiece.col, row, col);
 
-                        // select piece
-                        } else if (this._turn.color == this.getPieceColor(row, col) && !this._mandatoryMove) { 
+                            // select piece
+                        } else if (this._turn.color == this.getPieceColor(row, col) && !this._mandatoryMove) {
 
                             // clear previous selection
                             this.board.clearHighlitedCells();
@@ -124,7 +129,7 @@ class Game {
                             // display pices moves
                             this.checkPossibleMoves(row, col);
 
-                        // incorrect piece selected
+                            // incorrect piece selected
                         } else if (this._turn.color != this.getPieceColor(row, col) && this.getCell(row, col).piece != null) { // select incorrect piecee
 
                             // display wrong piece toast
@@ -159,9 +164,8 @@ class Game {
 
         let cells = this._board.cells;
 
-        let result = cells.find(cell => cell.positionX == row && cell.positionY == col);
+        return cells.find(cell => cell.positionX == row && cell.positionY == col);
 
-        return result;
     }
 
     /**
@@ -223,7 +227,7 @@ class Game {
                 ]
             }
 
-        // normal moves
+            // normal moves
         } else if (piece.dame) {
             moves = [
                 { moveX: 1, moveY: -1 },
@@ -253,7 +257,7 @@ class Game {
 
         return moves;
     }
- 
+
     /**
      * for every possible pices move, calls checkMove() to check if move is possible, if so adds it to possible_moves array
      * also highlights cells depending on results
@@ -261,29 +265,20 @@ class Game {
      * @param {*} col -> cell col containing the piece
      * @param {*} captured -> boolean, either its a mandatory move or not
      */
-
     checkPossibleMoves(row, col, captured = false) {
 
         let color = this._turn.color;
         let piece = this.getCell(row, col).piece;
-        console.log("dame " + piece.dame);
         let moves = this.getPieceMoves(piece, captured);
-        console.log("selected piece, moves");
-        console.log(piece, moves);
 
         // call checkMove()
         for (let move in moves) {
 
-             // no need to check 2/2 moves if 1/1 is already possible
+            // no need to check 2/2 moves if 1/1 is already possible
             if (!this._possibleMoves.includes(`#${row + moves[move].moveX / 2}-${col + moves[move].moveY / 2}`)) {
 
-                console.log("row "+ row + " col "+ col);
-                console.log(moves[move]);
-
-                console.log(this.checkMove(row, col, moves[move].moveX, moves[move].moveY, color));
-                
                 // if move is possible
-                if (this.checkMove(row, col, moves[move].moveX, moves[move].moveY, color)) { 
+                if (this.checkMove(row, col, moves[move].moveX, moves[move].moveY, color)) {
 
                     this.board.highlightCell(row + moves[move].moveX, col + moves[move].moveY, "green"); // highlight possible move cell
                     this._possibleMoves.push(`#${row + moves[move].moveX}-${col + moves[move].moveY}`); // add move to possible moves array
@@ -309,14 +304,12 @@ class Game {
      */
     checkMove(row, col, moveX, moveY, color) {
 
-        // console.log(row, col, moveX, moveY);
-
         // check if moves are inside the board
         if (row + moveX < 1 || row + moveX > 8 || col + moveY < 1 || col + moveY > 8) {
 
             return false;
 
-        // check move
+            // check move
         } else {
 
             // +-1 / +-1 moves
@@ -324,16 +317,13 @@ class Game {
 
                 return true;
 
-            // +-2 / +-2 moves
-            //first check if there is an opponents piece in 1/1, then check if the 2/2 is empty 
+                // +-2 / +-2 moves
+                //first check if there is an opponents piece in 1/1, then check if the 2/2 is empty 
             } else if (Math.abs(moveX) == 2 &&
-                    (this.getCell(row + moveX / 2, col + moveY / 2).piece != null && 
-                    this.getPieceColor(row + moveX / 2, col + moveY / 2) != color && 
-                    this.getCell(row + moveX, col + moveY).piece == null
-                    )) {
-
+                (this.getCell(row + moveX / 2, col + moveY / 2).piece != null &&
+                    this.getPieceColor(row + moveX / 2, col + moveY / 2) != color &&
+                    this.getCell(row + moveX, col + moveY).piece == null)) {
                 return true;
-
             }
 
         }
@@ -351,8 +341,6 @@ class Game {
      */
     movePiece(row, col, toRow, toCol) {
 
-        console.log("move piece");
-        let captured = false;
         let piece = this.getCell(row, col).piece;
 
         this.getCell(row, col).piece = null; // remove piece from old position
@@ -360,7 +348,7 @@ class Game {
         this._board.movePiece(row, col, toRow, toCol); // move piece graphically
 
         // check if piece became dame
-        if (piece.dame == false) {
+        if (!piece.dame) {
             this.checkDame(toRow, toCol, piece);
         }
 
@@ -371,11 +359,11 @@ class Game {
         this._board.clearHighlitedCells();
 
         // check if piece has been captured during move, if so, check if can keep capturing (mandatory move)
-        if ( Math.abs(row - toRow) == 2){
+        if (Math.abs(row - toRow) == 2) {
 
-            this.capturePiece(row + (( toRow - row)/2), col + ((toCol - col)/2));
+            this.capturePiece(row + ((toRow - row) / 2), col + ((toCol - col) / 2));
             this.checkPossibleMoves(toRow, toCol, true);
-            
+
         }
 
         // mandatory move
@@ -392,7 +380,6 @@ class Game {
                 width: '35%',
             })
 
-            console.log("mandatory move");
             this._mandatoryMove = true;
 
             //change selected piece position
@@ -401,23 +388,19 @@ class Game {
             this._selectedPiece.color = this._turn.color;
             this._board.highlightCell(toRow, toCol, "white")
 
-        // change turn
+            // change turn
         } else {
 
             // if opponent has no moves left, end the game
             if (!this.checkMovesLeft()) {
-                console.log("change turnaaaaaaaaaaa");
                 this.endGame(this.turn);
             }
             // else change turn
             else {
                 this.changeTurn();
-                console.log("turn change");
             }
 
         }
-
-        console.log(this._board);
 
     }
 
@@ -428,19 +411,18 @@ class Game {
      */
     capturePiece(row, col) {
 
-        console.log("capture piece "+row+" "+col);
         //remove logically
-        this.getCell(row, col).piece.setActive; 
-        this.getCell(row, col).piece = null; 
-        this.opponent.substractPiece(); 
-       
+        this.getCell(row, col).piece.setActive;
+        this.getCell(row, col).piece = null;
+        this.opponent.substractPiece();
+
         //remove graphically
-        this._board.capturePiece(row, col, this.opponent); 
+        this._board.capturePiece(row, col, this.opponent);
 
         // check if opponent has no pieces left, if so, end the game
         if (this.opponent.pieces == 0) {
             this.endGame(this.turn);
-        } 
+        }
 
     }
 
@@ -452,19 +434,17 @@ class Game {
      */
     checkDame(row, col, piece) {
 
-        if (piece.color == "white") {
 
-            if (row == 8) {
-                piece.setDame(); // set dame to true
-                this._board.setDame(row, col, "white"); // change piece image
-            }
+        if (piece.color == "white" && row == 8) {
 
-        } else if (piece.color == "black") {
+            piece.setDame(); // set dame to true
+            this._board.setDame(row, col, "white"); // change piece image
 
-            if (row == 1) {
-                piece.setDame(); //set dame to true
-                this._board.setDame(row, col, "black"); // change piece image
-            }
+
+        } else if (piece.color == "black" && row == 1) {
+
+            piece.setDame(); //set dame to true
+            this._board.setDame(row, col, "black"); // change piece image
 
         }
 
@@ -478,15 +458,12 @@ class Game {
 
         let cells = this.getOpponentActivePieces() // all cells with oponent pieces
 
-        // console.log("active ");
-        // console.log(cells);
-
         // for each opponent piece, check all moves, until find a possible one
         for (let cell in cells) {
             let moves = this.getPieceMoves(cells[cell].piece);
 
             for (let move in moves) {
-                // console.log(cells[cell]);
+
                 if (this.checkMove(cells[cell].positionX, cells[cell].positionY, moves[move].moveX, moves[move].moveY, cells[cell].piece.color)) { // if move is possible
                     return true;
                 }
@@ -511,10 +488,10 @@ class Game {
     /**
      * shows surrender modal, and asks for rematch
      * @param {*} player -> player who has surrendered
-     */ 
+     */
     surrender(player) {
 
-        if (this._playing == true && this._turn == player){
+        if (this._playing && this._turn == player) {
 
             // confirm surrender
             Swal.fire({
@@ -529,14 +506,14 @@ class Game {
                 cancelButtonText: 'Noo',
                 width: '40%',
 
-              }).then((result) => {
+            }).then((result) => {
                 if (result.isConfirmed) {
 
                     this._playing = false;
 
                     // surrender alert
                     Swal.fire({
-                        
+
                         text: `${player.name} has surrended`,
                         showConfirmButton: true,
                         imageUrl: './resources/images/ff.gif',
@@ -545,12 +522,12 @@ class Game {
                         imageAlt: 'uwu',
                         width: '40%',
 
-                    }).then(() =>{
+                    }).then(() => {
                         this.newGameModal();
                     })
 
                 }
-              })
+            })
 
         }
     }
@@ -570,8 +547,8 @@ class Game {
             imageWidth: 400,
             imageHeight: 300,
             imageAlt: 'dale nen',
-            
-        }).then(() =>{
+
+        }).then(() => {
             this.newGameModal();
         })
 
@@ -580,7 +557,7 @@ class Game {
     /**
      * shows modal to start a new game
      */
-    newGameModal(){
+    newGameModal() {
 
         Swal.fire({
 
@@ -594,13 +571,13 @@ class Game {
             cancelButtonText: 'Noo',
             width: '40%',
 
-          }).then((result) => {
-              
+        }).then((result) => {
+
             if (result.isConfirmed) {
                 this.newGame();
             }
 
-          })
+        })
 
     }
 

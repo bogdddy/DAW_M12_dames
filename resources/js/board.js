@@ -149,7 +149,7 @@ class Board {
             $(`${cells[cell].id}`).removeClass(`${cells[cell].color}`);
         }
         
-        cells = [];
+        this._highlightedCells = [];
     }
 
     /**
@@ -203,7 +203,6 @@ class Board {
      */
     changeTurn(playing, opponent){
 
-        console.log($(`#${playing.color}-avatar`));
         $(`#${playing.color}-avatar`).css("opacity", "0.5" );
         $(`#${opponent.color}-avatar`).css("opacity", "1" );
 
